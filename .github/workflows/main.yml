@@ -252,7 +252,8 @@ jobs:
           branch: gh-pages
           folder: build/WebGL
 
-  name: Deploy to itch.io
+  deployItchIo:
+    name: Deploy to itch.io
     needs: [buildWebGL, buildAndroid, buildMac, buildWindows]
     on: push
     env:
