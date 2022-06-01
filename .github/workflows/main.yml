@@ -141,7 +141,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-win64
+          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
           path: build/StandaloneWindows64
 
   buildMac:
@@ -185,7 +185,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-osx
+          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
           path: build/StandaloneOSX
 
   buildAndroid:
@@ -229,7 +229,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-android
+          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
           path: build/Android
 
   zip-files:
@@ -241,7 +241,7 @@ jobs:
       - uses: papeloto/action-zip@v1
         with:
           files: build/WebGL
-          dest: ${{ secrets.ITCH_GAME_ID }}-webgl.zip
+          dest: build/Zip/${{ secrets.ITCH_GAME_ID }}-webgl.zip
 
 
   deployPages:
