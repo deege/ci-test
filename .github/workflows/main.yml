@@ -252,37 +252,28 @@ jobs:
           branch: gh-pages
           folder: build/WebGL
 
-  deployItchIo:
-    name: Deploy to itch.io
+  deployItchIO:
     needs: [buildWebGL, buildAndroid, buildMac, buildWindows]
-    on: push
-    env:
-      ITCH_USERNAME: ${{ secrets.ITCH_IO_USERNAME}}
-      ITCH_GAME_ID: my-game-id
-    jobs:
-      deploy:
-        name: Upload to Itch
-        runs-on: ubuntu-latest
-        strategy:
-          fail-fast: true
-          matrix:
-            channel:
-              - windows
-              - webgl
-              - osx
-              - android
-        runs-on: ubuntu-latest
-        name: Deploy - Itch.io ${{ matrix.template }}
-        steps:
-          - uses: actions/download-artifact@v2.0.8
-            with:
-              name: ${{ matrix.channel }}
-              path: build/${{ matrix.channel }}
-          - uses: KikimoraGames/itch-publish@v0.0.3
-            with:
-              butlerApiKey: ${{secrets.BUTLER_API_KEY}}
-              gameData: ./build/${{ matrix.template }}
-              itchUsername: ${{env.ITCH_USERNAME}}
-              itchGameId: ${{ env.ITCH_GAME_ID }}
-              buildChannel: ${{ matrix.channel }}
-              buildNumber: ${{ needs.version.outputs.version_hash }}
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: true
+      matrix:
+        channel:
+          - windows
+          - webgl
+          - osx
+          - android
+    name: Deploy - Itch.io ${{ matrix.template }}
+    steps:
+      - uses: actions/download-artifact@v2.0.8
+        with:
+          name: ${{ matrix.channel }}
+          path: build/${{ matrix.channel }}
+      - uses: KikimoraGames/itch-publish@v0.0.3
+        with:
+          butlerApiKey: ${{secrets.BUTLER_API_KEY}}
+          gameData: ./build/${{ matrix.template }}
+          itchUsername: ${{secrets.ITCH_USERNAME}}
+          itchGameId: ${{ secrets.ITCH_GAME_ID }}
+          buildChannel: ${{ matrix.channel }}
+          buildNumber: ${{ needs.version.outputs.version_hash }}
