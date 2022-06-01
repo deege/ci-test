@@ -97,7 +97,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: build-WebGL
+          name: webgl
           path: build/WebGL
 
   buildWindows:
@@ -141,7 +141,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-StandaloneWindows64
+          name: win64
           path: build/StandaloneWindows64
 
   buildMac:
@@ -185,7 +185,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-build-StandaloneOSX
+          name: osx
           path: build/StandaloneOSX
 
   buildAndroid:
@@ -229,7 +229,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-Android
+          name: android
           path: build/Android
 
   zip-files:
@@ -242,7 +242,6 @@ jobs:
         with:
           files: build/WebGL
           dest: build/Zip/${{ secrets.ITCH_GAME_ID }}-webgl.zip
-
 
   deployPages:
     needs: buildWebGL
