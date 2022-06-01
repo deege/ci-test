@@ -141,7 +141,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
+          name: ${{ secrets.ITCH_GAME_ID }}-StandaloneWindows64
           path: build/StandaloneWindows64
 
   buildMac:
@@ -174,7 +174,7 @@ jobs:
         uses: actions/cache@v2
         with:
           path: Library
-          key: Library-build-StandaloneWindows64
+          key: Library-build-StandaloneOSX
           restore-keys: |
             Library-build-
             Library-
@@ -185,7 +185,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
+          name: ${{ secrets.ITCH_GAME_ID }}-build-StandaloneOSX
           path: build/StandaloneOSX
 
   buildAndroid:
@@ -229,7 +229,7 @@ jobs:
 
       - uses: actions/upload-artifact@v2
         with:
-          name: ${{ secrets.ITCH_GAME_ID }}-${{ matrix.targetPlatform }}
+          name: ${{ secrets.ITCH_GAME_ID }}-Android
           path: build/Android
 
   zip-files:
@@ -264,7 +264,7 @@ jobs:
           folder: build/WebGL
 
   deployItchIO:
-    needs: [buildWebGL, buildAndroid, buildMac, buildWindows]
+    needs: [buildWebGL, buildAndroid, buildMac, buildWindows, zip-files]
     runs-on: ubuntu-latest
     strategy:
       fail-fast: true
